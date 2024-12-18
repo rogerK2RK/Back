@@ -1,21 +1,45 @@
 import express from 'express'
 import 'dotenv/config'
-import movieRouter from './routes/movieRouter.js';
+import movieRouter from './routes/movieRouter.js'
+import userRouter from './routes/userRouter.js'
+import mongoose from 'mongoose'
+
+const app = express()
+
+const PORT = process.env.PORT || 3002
+
+app.use(express.json())
+app.use(express.urlencoded({extended : false}))
+app.use(movieRouter, userRouter)
+
+
+const MONGO_URI = process.env.MONGO_URI
+
+
+const firstMiddleware =  (request, response, next) => {
+    console.log(`Welcome to my API`)
+    next()
+}
+
+const secondMiddleware = (request, response, next) => {
+    response.send('Hello world')
+}
+
+
+app.get('/', firstMiddleware, secondMiddleware)
 
 
 
-const app = express();
-const PORT = process.env.PORT || 3002;
 
-app.use(express.json());
-app.use(express.urlencoded({extended : false}));
-app.use(movieRouter);
+mongoose.connect(MONGO_URI)
+const db = mongoose.connection
 
-app.get('/', (req, res) => {
-    res.send(`Welcom to my API`)
+db.on('connected', () => {
+    console.log('Connected to the database 🟢')
 })
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-//Démarrage du serveur
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
+
+
+
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
