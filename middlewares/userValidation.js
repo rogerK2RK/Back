@@ -1,6 +1,7 @@
 import User from '../models/User.js'
 
 
+
 export const userCreation = (req, res, next) => {
     const { email, name, last_name, password } = req.body
     if (!email || !name || !last_name || !password) {

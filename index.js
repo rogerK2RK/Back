@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import movieRouter from './routes/movieRouter.js'
 import userRouter from './routes/userRouter.js'
+import carRouter from './routes/carRouter.js'
 import mongoose from 'mongoose'
 
 const app = express()
@@ -10,7 +11,7 @@ const PORT = process.env.PORT || 3002
 
 app.use(express.json())
 app.use(express.urlencoded({extended : false}))
-app.use(movieRouter, userRouter)
+app.use(movieRouter, userRouter, carRouter)
 
 
 const MONGO_URI = process.env.MONGO_URI
