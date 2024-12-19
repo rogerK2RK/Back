@@ -3,14 +3,13 @@ import mongoose, { Schema} from "mongoose";
 const carSchema = Schema({
     marque : {
         type : String,
-        required : true,
-        unique : true,
+        required : true
     },
     name : {
         type : String,
         required : true,
     },
-    userId : {
+    user_id : {
         type : mongoose.Schema.Types.ObjectId, 
         ref : 'User',
     }
